@@ -8,6 +8,7 @@ Uso:
   python3 tcl_optimizer.py --ip 192.168.1.50 optimize
   python3 tcl_optimizer.py --ip 192.168.1.50 list-apps
   python3 tcl_optimizer.py --ip 192.168.1.50 debloat      # usa debloat.txt
+  python3 tcl_optimizer.py --ip 192.168.1.50 uninstall    # libera espacio
   python3 tcl_optimizer.py --ip 192.168.1.50 restore
 """
 import argparse
@@ -130,6 +131,17 @@ def cmd_debloat(_):
     print("\nℹ️  Revertir: python3 tcl_optimizer.py restore")
 
 
+def cmd_uninstall(_):
+    installed = set(sh("pm list packages").replace("package:", "").split())
+    for p in read_debloat():
+        if p not in installed:
+            print(f"⏭️  {p} (no instalado)")
+            continue
+        out = sh(f"pm uninstall -k --user 0 {p}")
+        print(f"{'🗑️ ' if 'Success' in out else '⚠️ '} {p}: {out}")
+    print("\nℹ️  Revertir: python3 tcl_optimizer.py restore")
+
+
 def cmd_restore(_):
     if os.path.exists(STATE_FILE):
         with open(STATE_FILE) as f:
@@ -146,6 +158,12 @@ def cmd_restore(_):
     for p in read_debloat() if os.path.exists(DEBLOAT_FILE) else []:
         if p in disabled:
             print(f"↩️  {p}: {sh(f'pm enable {p}')}")
+    # Reinstala (versión de fábrica) lo quitado con `uninstall`
+    every = set(sh("pm list packages -u").replace("package:", "").split())
+    installed = set(sh("pm list packages").replace("package:", "").split())
+    for p in read_debloat() if os.path.exists(DEBLOAT_FILE) else []:
+        if p in every and p not in installed:
+            print(f"↩️  {p}: {sh(f'cmd package install-existing {p}')}")
     print("✅ Restaurado.")
 
 
@@ -158,11 +176,12 @@ def main():
     o.add_argument("--skip-dexopt", action="store_true", help="No compilar apps")
     sub.add_parser("list-apps", help="Lista paquetes para decidir qué desactivar")
     sub.add_parser("debloat", help="Desactiva paquetes de debloat.txt")
+    sub.add_parser("uninstall", help="Desinstala (user 0) paquetes de debloat.txt; libera espacio")
     sub.add_parser("restore", help="Revierte todo")
     args = ap.parse_args()
     connect(args.ip)
     {"info": cmd_info, "optimize": cmd_optimize, "list-apps": cmd_list_apps,
-     "debloat": cmd_debloat, "restore": cmd_restore}[args.cmd](args)
+     "debloat": cmd_debloat, "uninstall": cmd_uninstall, "restore": cmd_restore}[args.cmd](args)
 
 
 if __name__ == "__main__":

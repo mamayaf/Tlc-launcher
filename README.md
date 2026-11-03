@@ -11,6 +11,7 @@ Optimizador vía **ADB** para TV TCL con Android TV 11 (MediaTek, `V8-R51MT05`, 
 | `bg-dexopt-job` | Compila apps AOT → arranque más rápido |
 | Desactiva escaneo WiFi/BLE permanente | Menos CPU/ruido de fondo |
 | `debloat` | Desactiva apps preinstaladas que no uses (libera RAM) |
+| `uninstall` | Desinstala para el usuario 0 (`pm uninstall -k --user 0`): libera RAM y espacio |
 
 ## Preparación (TV)
 1. Ajustes → Sistema → Acerca de → pulsa **Compilación** 7 veces.
@@ -24,8 +25,20 @@ python3 tcl_optimizer.py --ip 192.168.1.50 optimize    # optimiza
 python3 tcl_optimizer.py --ip 192.168.1.50 list-apps   # ver paquetes
 # edita debloat.txt
 python3 tcl_optimizer.py --ip 192.168.1.50 debloat
+python3 tcl_optimizer.py --ip 192.168.1.50 uninstall   # o desinstalar (libera espacio)
 python3 tcl_optimizer.py --ip 192.168.1.50 restore     # revertir todo
 ```
+
+## Desde el celular Android 📱 (Termux)
+1. Instala **Termux** desde F-Droid (la de Play Store está desactualizada).
+2. En Termux:
+```bash
+pkg update && pkg install -y android-tools python git
+git clone https://github.com/mamayaf/Tlc-launcher && cd Tlc-launcher
+git checkout ccr-6213a22d-7epqy2
+python tcl_optimizer.py --ip <IP_TV> info
+```
+El celular y la TV deben estar en la misma red WiFi.
 Acepta el diálogo "¿Permitir depuración?" en la TV la primera vez.
 
 ## Mayor ganancia extra 🚀
