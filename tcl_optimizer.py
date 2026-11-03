@@ -30,6 +30,8 @@ SETTINGS = [
     ("global", "wifi_scan_always_enabled", "0"),
     ("global", "ble_scan_always_enabled", "0"),
     ("global", "network_recommendations_enabled", "0"),
+    ("secure", "screensaver_enabled", "0"),
+    ("secure", "screensaver_activate_on_sleep", "0"),
 ]
 
 DEVICE = None
