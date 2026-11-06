@@ -6,6 +6,8 @@
 
 # --- Telemetría TCL (seguro) ---
 com.tcl.bi
+com.tcl.usercenter                     # Cuenta TCL
+com.tcl.messagebox                     # Notificaciones/anuncios TCL
 
 # --- Google, seguros si no los usas ---
 com.google.android.play.games
@@ -14,11 +16,11 @@ com.google.android.youtube.tvmusic
 com.google.android.feedback
 com.google.android.marvin.talkback
 
-# --- Opcionales: descomenta según uso ---
-# com.google.android.apps.tv.dreamx    # Ambient/salvapantallas Google TV (~115 MB)
-# com.google.android.katniss           # Asistente/voz (~80 MB) - pierdes búsqueda por voz
-# com.google.android.apps.mediashell   # Chromecast integrado (~34 MB)
-# com.tcl.MultiScreenInteraction_TV    # Duplicar pantalla / T-Cast TCL (~18 MB)
-# com.tcl.guard                        # "Limpiador" TCL (~19 MB)
+# --- Aplicados en la TV 1 (comenta con # los que quieras conservar) ---
+com.google.android.apps.tv.dreamx    # Ambient/salvapantallas Google TV (~115 MB)
+com.google.android.katniss           # Asistente/voz (~80 MB) - pierdes búsqueda por voz
+com.google.android.apps.mediashell   # Chromecast integrado (~34 MB)
+com.tcl.MultiScreenInteraction_TV    # Duplicar pantalla / T-Cast TCL (~18 MB)
+com.tcl.guard                        # "Limpiador" TCL (~19 MB)
 # com.netflix.ninja
 # com.amazon.amazonvideo.livingroom
